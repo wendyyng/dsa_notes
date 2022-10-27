@@ -46,3 +46,108 @@ function BinaryTreeNode(value) {
 
 //log 100 = 2
 //10^2 = 100;
+
+
+
+
+//Binary Search Tree
+//Great for searching
+//preserve relationships
+//All child nodes in the tree to the right of the root node must be greater than the current node
+//https://visualgo.net/en/bst?slide=1
+
+//Balanced VS Unbalanced BST
+//Unbalanced Trees - bad performance - can be almost like linked list - worst case O(n)
+
+//BST
+//Pros: Better than O(n), Ordered, Flexible Size
+//Cons: No O(1) operations - need to do some traversal
+
+//Exercise: Binary Search Tree
+class Node {
+  constructor(value){
+    this.left = null;
+    this.right = null;
+    this.value = value;
+  }
+}
+
+class BinarySearchTree {
+  constructor(){
+    this.root = null;
+  }
+  insert(value){
+    const newNode = new Node(value)
+    if(this.root === null){
+      this.root = newNode
+      return newNode
+    }
+    
+    let currentNode = this.root
+    while(true){
+      if(value < currentNode.value){
+        //Left
+        if(!currentNode.left) {
+          currentNode.left = newNode;
+          return this;
+        }
+        currentNode = currentNode.left
+      }else {
+        //Right
+        if(!currentNode.right) {
+          currentNode.right = newNode;
+          return this;
+        }
+        currentNode = currentNode.right
+      }
+    }
+  }
+  lookup(value){
+    //simple return the node
+    if(!this.root){
+      return false;
+    }
+    let currentNode = this.root;
+    while(currentNode) {
+      if(value < currentNode.value) {
+        currentNode = currentNode.left
+      }else if (value > currentNode.value) {
+        currentNode = currentNode.right
+      } else if (currentNode.value === value) {
+        return currentNode;
+      }
+    }
+    //If can't find it
+    return false;
+  }
+  remove(value){
+    
+  }
+}
+
+function traverse(node) {
+  const tree = { value: node.value };
+  tree.left= node.left === null ? null :
+  traverse(node.left);
+  tree.right = node.right === null ? null :
+  traverse(node.right);
+  return tree;
+}
+
+
+const tree = new BinarySearchTree();
+console.log(tree.value)
+tree.insert(9);
+tree.insert(4);
+tree.insert(6);
+tree.insert(20);
+tree.insert(170);
+tree.insert(15);
+tree.insert(1);
+console.log(tree.lookup(9))
+// console.log(tree)
+// console.log(JSON.stringify(traverse(tree.root)))
+//   9
+// 4    20
+//1  6  15  170
+
