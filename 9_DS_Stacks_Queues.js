@@ -131,3 +131,88 @@ class Stack2 {
     return false
   }
 }
+
+//Exercise: Queue Implementation
+// class Node {
+//   constructor(value) {
+//     this.value = value;
+//     this.next = null;
+//   }
+// }
+
+class Queue {
+  constructor(){
+    this.first = null;
+    this.last = null;
+    this.length = 0;
+  }
+
+  peek() {
+    //first item of the queue
+    return this.first
+  }
+  enqueue(value){
+    //add to the queue
+    let newNode = new Node(value)
+    if(this.length === 0){
+      this.first = newNode;
+      this.last = newNode;
+    }else{
+      // let holdingNode = this.last
+      // this.last = newNode;
+      // holdingNode.next = newNode;
+      this.last.next = newNode;
+      this.last = newNode;
+    }
+      this.length++
+  }
+  dequeue(){
+    //remove the front of the list
+    if(this.length === 0){
+      return null
+    }
+    if(this.first === this.last){
+      this.last = null;
+    }
+      // let newFirstNode = this.first.next
+      // this.first = newFirstNode;
+      const holdingPointer = this.first;
+      this.first = this.first.next;
+      this.length--
+      return holdingPointer;
+  }
+  isEmpty(){
+    if(this.length === 0) return true
+    return false
+  }
+  printList() {
+  //List the linked list
+  const array = [];
+  let currentNode = this.first;
+  while(currentNode !== null){
+    array.push(currentNode.value);
+    currentNode = currentNode.next;
+  }
+  console.log(array);
+  }
+}
+
+const myQueue = new Queue();
+myQueue.enqueue("Joy")
+myQueue.enqueue("Matt")
+myQueue.enqueue("Pavel")
+myQueue.printList()
+myQueue.dequeue()
+myQueue.dequeue()
+myQueue.printList()
+
+
+//Joy
+//Matt
+//Pavel
+//Samir
+
+
+//Leetcode 232. Implement Queue using Stacks
+//https://replit.com/@aneagoie/Data-Structures-Queues-2-stacks
+//https://leetcode.com/problems/implement-queue-using-stacks/description/
