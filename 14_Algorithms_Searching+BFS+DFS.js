@@ -243,6 +243,60 @@ class BinarySearchTree {
       }
     return breadthFirstSearchR(queue, list);
   }
+  DFTPreOrder(currentNode, list) {
+    return traversePreOrder(this.root, []);
+  }
+  DFTPostOrder(){
+    return traversePostOrder(this.root, []); 
+  }
+  DFTInOrder(){
+    return traverseInOrder(this.root, []);
+  } 
+}
+
+//     9
+//  4     20
+//1  6  15  170
+//PreOrder - start from parent and grab children from left to right - 9,4,1,6,20,15,170
+//Useful to create a tree
+function traversePreOrder(node, list){
+  list.push(node.value);
+  if(node.left) {
+    traversePreOrder(node.left, list);
+  }
+  if(node.right) {
+    traversePreOrder(node.right, list);
+  }
+  return list;
+}
+//     9
+//  4     20
+//1  6  15  170
+//InOrder - 1,4,6,9,15,20,170
+function traverseInOrder(node, list){
+  if(node.left) {
+    traverseInOrder(node.left, list);
+  }
+  list.push(node.value);
+  if(node.right) {
+    traverseInOrder(node.right, list);
+  }
+  return list;
+}
+//     9
+//  4     20
+//1  6  15  170
+//PostOrder - go all the way down and then the parent
+//1,6,4,15,170,20,9
+function traversePostOrder(node, list){
+  if(node.left) {
+    traversePostOrder(node.left, list);
+  }
+  if(node.right) {
+    traversePostOrder(node.right, list);
+  }
+  list.push(node.value);
+  return list;
 }
 
 const tree = new BinarySearchTree();
@@ -257,6 +311,13 @@ tree.insert(1)
 JSON.stringify(traverse(tree.root))
 console.log(tree.breathFirstSearch())
 console.log(tree.breathFirstSearch([tree.root], []))
+
+// console.log('BFS', tree.breadthFirstSearch());
+// console.log('BFS', tree.BreadthFirstSearchR([tree.root], []))
+console.log('DFSpre', tree.DFTPreOrder());
+console.log('DFSin', tree.DFTInOrder());
+console.log('DFSpost', tree.DFTPostOrder());
+
 
 //     9
 //  4     20
@@ -283,3 +344,66 @@ function traverse(node) {
 
 //PostOrder - go all the way down and then the parent
 //1,6,4,15,170,20,9
+
+
+//BFS vs DFS
+//https://stackoverflow.com/questions/9844193/what-is-the-time-and-space-complexity-of-a-breadth-first-and-depth-first-tree-tr
+
+
+// [2,1,3]
+var isValidBST = function(root) {
+function helper(root, min, max){
+         if (!root){
+             return true
+         }
+        
+        if ((min !== null && root.val <= min) || (max !== null && root.val >= max)){
+            return false
+        }
+        
+        return helper(root.left, min, root.val) && helper(root.right, root.val, max)
+    }
+
+    return helper(root, null, null)
+ 
+};
+
+//Graph Traversals
+//Tree - a type of graphs
+//DFS - facebook/linkedin - friend recommendations
+//BFS - search the book that has the closest relation to the last book that we bought
+//eg. recommendation engines
+//https://visualgo.net/en/dfsbfs?slide=1
+
+//BFS - Shortest path, Closer Nodes but More Memory - most related items on amazon, closest friends, recommendations, peer to peer engines
+
+//DFS - if something exists, like solving a maze
+//Recursion is used, each steps is smller then the other
+//Does the path exists?, use less memory, downside: deep graph - can be slow
+
+//Shotest Path eg. Google maps
+//Dijkstra + Bellman-Ford Algorithms
+//Not going to implement this in the interview
+//Figure out a shortes path problem
+//Spacial Case: 
+//BFS - each jump to another node of a graph, each path has the same weight
+
+
+//Directed/Weighted
+//eg. weighted graphs have numbers associated to the their edges
+//BFS, DFS - don't care what kind of weight an edge pass
+//Ans: Dijkstra + Bellman-Ford Algorithms - find the shortest paths between two nodes on a weighted graph
+//https://medium.com/basecs/finding-the-shortest-path-with-a-little-help-from-dijkstra-613149fbdc8e
+
+//Bellman Ford algorithm is very effective at solving the shortest path over Dijkstra's algorithm because it can accommodate negative weights
+//***Negative weights - use Bellman Ford - can take long time run O(n^2) - not efficient
+//***No Negative weights - use Dijstra's algorithms - more efficient and faster but can't accommodate negative weights
+
+//Review
+//Searching + Traversal Review
+//Linear Search - linear time O(n)
+//Binary Search - dividing tree in half 
+//DFS - Go as deep as possible
+//BFS - Level by level
+
+//Array: search - is it sorted? if yes divide and conquer Binary serach O(log N)
